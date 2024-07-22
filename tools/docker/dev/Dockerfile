@@ -10,12 +10,16 @@ RUN subscription-manager register --org=$RHEL8_ORG --activationkey=$RHEL8_ACTIVA
 
 # Install tools
 #
+# iputils for ping
 # vim-enhanced for color vi support in git
+# wget to install vscode server
 #
 RUN dnf update -y \
   && dnf -y install \
   git \
+  iputils \
   vim-enhanced \
+  wget \
   && dnf clean all \
   && rm -rf /var/cache/yum
 

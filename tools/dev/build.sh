@@ -128,6 +128,9 @@ dryrun docker build \
   --rm \
   --build-arg BASE_IMAGE_NAME="registry.access.redhat.com/ubi8/ubi" \
   --build-arg BASE_IMAGE_TAG="8.9-1136" \
+  --build-arg RHEL8_ORG="$RHEL8_ORG" \
+  --build-arg RHEL8_ACTIVATION_KEY="$RHEL8_ACTIVATION_KEY" \
+  --build-arg USERNAME="$USERNAME" \
   --tag "$image_name:$image_tag" \
   "$project_dir/tools/docker/dev/"
 
@@ -156,7 +159,7 @@ log Unregister WSL distro if exists...
 dryrun wsl --unregister $image_name || true
 
 log Create wsl output directory if not exists...
-mkdir -p $wsl_output
+dryrun mkdir -p $wsl_output
 
 log Import new container to WSL...
 dryrun wsl --import personal-$image_base_name "$wsl_output" "$container_file"

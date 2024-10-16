@@ -4,8 +4,8 @@ RHEL9 image for to use as WSL2 development distribution.
 
 This effort is a result of corrupted build mounts in dev containers.
 
-* <https://code.visualstudio.com/blogs/2020/07/01/containers-wsl>
-* <https://www.docker.com/blog/docker-desktop-wsl-2-best-practices/>
+- <https://code.visualstudio.com/blogs/2020/07/01/containers-wsl>
+- <https://www.docker.com/blog/docker-desktop-wsl-2-best-practices/>
 
 ## Build locally
 
@@ -59,3 +59,8 @@ windows git credential manager support.
 This means that when you enter your git user name and token in windows, that
 credential manager is accessible from within the WSL distro making cloning
 simple and seamless from within the WSL env.
+
+Additionally, when you create a dev container from this WSL distro with the
+credential helper configured, the container automatically shares the credentials
+thanks to the VS Code Dev Container extension, per
+<https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials>.

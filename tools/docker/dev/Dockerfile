@@ -2,11 +2,11 @@ ARG BASE_IMAGE_NAME
 ARG BASE_IMAGE_TAG
 FROM $BASE_IMAGE_NAME:$BASE_IMAGE_TAG
 
-RUN --mount=type=secret,id=RHEL8_ORG \
-  --mount=type=secret,id=RHEL8_ACTIVATION_KEY \
+RUN --mount=type=secret,id=RHEL_ORG \
+  --mount=type=secret,id=RHEL_ACTIVATION_KEY \
   subscription-manager register \
-  --org=$(cat /run/secrets/RHEL8_ORG) \
-  --activationkey=$(cat /run/secrets/RHEL8_ACTIVATION_KEY)
+  --org=$(cat /run/secrets/RHEL_ORG) \
+  --activationkey=$(cat /run/secrets/RHEL_ACTIVATION_KEY)
 
 # Install tools
 #

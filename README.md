@@ -1,6 +1,6 @@
-# wsl-rhel8
+# wsl-rhel9
 
-RHEL8 image for to use as WSL2 development distribution.
+RHEL9 image for to use as WSL2 development distribution.
 
 This effort is a result of corrupted build mounts in dev containers.
 
@@ -18,29 +18,29 @@ try your default WSL distribution.
 
 ## RHEL Subscription
 
-This image is based on the RHEL8 UBI image and requires a RHEL subscription,
+This image is based on the RHEL9 UBI image and requires a RHEL subscription,
 such as a free developer subscription.
 
 The WSL container requires you register your subscription and assumes you have
-an environment variable named `RHEL8_ORG` defined with your organization and
-an environment variable named `RHEL8_ACTIVATION_KEY` defined with your
+an environment variable named `RHEL_ORG` defined with your organization and
+an environment variable named `RHEL_ACTIVATION_KEY` defined with your
 activation key identifier.
 
 ## Development Usage
 
 Once the development image is available in WSL, enable WSL integration in Docker
-Desktop settings for this specific `wsl-rhel8` distro under
+Desktop settings for this specific `wsl-rhel9` distro under
 `Settings > Resources > WSL Integration > Enable integration with additional distros`.
 
 You may run this script repeatedly to wipe the existing distro and replace it
 with a clean build. This script removes the distribution if it already exists.
 
-Launch your new wsl dev env with `wsl -d wsl-rhel8` or by using the `wsl-rhel8`
+Launch your new wsl dev env with `wsl -d wsl-rhel9` or by using the `wsl-rhel9`
 shortcut added to `Terminal`.
 
 ### Develop in VS Code
 
-Within the `wsl-rhel8` env, simply navigate to the desired project directory and
+Within the `wsl-rhel9` env, simply navigate to the desired project directory and
 launch `code .`.
 
 On the first launch, vscode will automatically use `wget` to download and

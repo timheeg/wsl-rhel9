@@ -6,7 +6,7 @@
 # Locally build the project Dockerfile image, export the container, and import
 # into WSL.
 #
-# Writes WSL output to "$HOME/work/env/wsl/wsl-rhel8". Modify this location by
+# Writes WSL output to "$HOME/work/env/wsl/wsl-rhel9". Modify this location by
 # specifying the `--wsl-output` argument.
 #
 
@@ -15,7 +15,7 @@ set -eu
 
 # Initialize configuration
 dryrun=0
-image_base_name="wsl-rhel8"
+image_base_name="wsl-rhel9"
 image_name="personal/$image_base_name"
 no_cache=0
 verbose=0
@@ -135,11 +135,11 @@ dryrun mv "$user_git_config" "$project_dir/tools/docker/dev/"
 log Build the docker image...
 dryrun docker build \
   $no_cache_cmd \
-  --build-arg BASE_IMAGE_NAME="registry.access.redhat.com/ubi8/ubi" \
-  --build-arg BASE_IMAGE_TAG="8.9-1136" \
+  --build-arg BASE_IMAGE_NAME="registry.access.redhat.com/ubi9/ubi" \
+  --build-arg BASE_IMAGE_TAG="9.4" \
   --build-arg USERNAME="$USERNAME" \
-  --secret id=RHEL8_ORG \
-  --secret id=RHEL8_ACTIVATION_KEY \
+  --secret id=RHEL_ORG \
+  --secret id=RHEL_ACTIVATION_KEY \
   --tag "$image_name:$image_tag" \
   "$project_dir/tools/docker/dev/"
 

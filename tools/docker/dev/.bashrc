@@ -9,9 +9,6 @@ fi
 export HISTSIZE=99999
 
 alias vi=vim
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
 alias ls='ls --color'
 
 #

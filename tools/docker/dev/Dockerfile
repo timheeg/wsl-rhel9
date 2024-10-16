@@ -49,30 +49,10 @@ RUN groupadd --gid $USER_GID $USERNAME \
 # Specify as the default user in the WSL config
 RUN printf "\n[user]\ndefault = $USERNAME\n" >> /etc/wsl.conf
 
-# 🔀 Configure system git configuration
-COPY git-config.sh /tmp/.
-RUN /tmp/git-config.sh && rm /tmp/git-config.sh
-
-# 🔀 Setup user-specific git configuration
-#
-# Copy the temp generated user config to the "global" user home with the script
-#
-COPY .gitconfig /home/$USERNAME
-RUN chown $USER_UID:$USER_GID /home/$USERNAME/.gitconfig
-
-COPY git-config-user.sh /tmp/.
-RUN chown $USER_UID:$USER_GID /tmp/git-config-user.sh \
-  && chmod +x /tmp/git-config-user.sh
-
 # Install the .bashrc for the user
-COPY .bashrc /home/$USERNAME
-RUN chown $USER_UID:$USER_GID "/home/$USERNAME/.bashrc" \
-  && chmod 644 "/home/$USERNAME/.bashrc"
+COPY --chown=$USER_UID:$USER_GID --chmod=644 .bashrc /home/$USERNAME
 
 # 🧑‍💻 Change to non-root user
 USER $USERNAME
-
-# Execute global git config settings.
-RUN /tmp/git-config-user.sh
 
 CMD [ "bash" ]

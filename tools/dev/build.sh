@@ -118,10 +118,6 @@ log Get the git commit to use as the image tag...
 image_tag=$(git rev-parse --short=9 HEAD~)
 log "image_tag=$image_tag"
 
-log Get the project git repo...
-git_repo=$(git config --get remote.origin.url)
-log "git_repo=$git_repo"
-
 log Get local git config for container...
 user_git_config=/tmp/.gitconfig
 {

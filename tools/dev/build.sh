@@ -132,7 +132,7 @@ log Build the docker image...
 dryrun docker build \
   $no_cache_cmd \
   --build-arg BASE_IMAGE_NAME="registry.access.redhat.com/ubi9/ubi" \
-  --build-arg BASE_IMAGE_TAG="9.4" \
+  --build-arg BASE_IMAGE_TAG="9.5" \
   --build-arg USERNAME="$USERNAME" \
   --secret id=RHEL_ORG \
   --secret id=RHEL_ACTIVATION_KEY \

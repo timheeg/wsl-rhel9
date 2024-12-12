@@ -16,10 +16,9 @@ set -eu
 # Initialize configuration
 dryrun=0
 image_base_name="wsl-rhel9"
-image_name="personal/$image_base_name"
+wsl_output=""
 no_cache=0
 verbose=0
-wsl_output="$HOME/work/env/wsl/$image_name"
 
 # Print usage statement and exit
 usage() {
@@ -28,8 +27,10 @@ usage() {
 Usage: $0 [OPTIONS]
 
 Options:
+ -n, --name       The quick name suffix to use
+                  Defaults to '$image_base_name'
  -w, --wsl-output Set the WSL output location
-                  Defaults to '$HOME/work/env/wsl/$image_name'
+                  Defaults to '$HOME/work/env/personal/wsl/rhel9/<base_name>'
      --no-cache   Pass to docker build to disable cache
  -v, --verbose    print verbose output
  -d, --dryrun     print commands without executing
@@ -40,7 +41,7 @@ exit 1
 }
 
 # Process command line args
-args=$(getopt -a -o wvdh --long wsl-output,no-cache,verbose,dryrun,help -- "$@")
+args=$(getopt -a -o n:w:vdh --long name:,wsl-output:,no-cache,verbose,dryrun,help -- "$@")
 if [[ $? != 0 ]]; then
   usage
 fi
@@ -50,6 +51,8 @@ eval set -- "${args}"
 while :
 do
   case $1 in
+    -n | --name)
+      image_base_name=$2; shift 2;;
     -w | --wsl-output)
       wsl_output=$2; shift 2;;
     --no-cache)
@@ -82,12 +85,19 @@ log() {
   fi
 }
 
+image_name="personal/wsl/rhel9/$image_base_name"
+
+if [ -z "$wsl_output" ]; then
+  wsl_output="$HOME/work/env/$image_name"
+fi
+
 # Log runtime configuration
 if [[ $verbose ]]; then
   log Configuration...
   log "  dryrun=$dryrun"
   log "  no_cache=$no_cache"
   log "  verbose=$verbose"
+  log "  image_name=$image_name"
   log "  wsl_output=$wsl_output"
 fi
 

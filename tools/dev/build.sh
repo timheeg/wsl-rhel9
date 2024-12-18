@@ -85,10 +85,10 @@ log() {
   fi
 }
 
-image_name="personal/wsl/rhel9/$image_base_name"
+image_name="personal/rhel9/$image_base_name"
 
 if [ -z "$wsl_output" ]; then
-  wsl_output="$HOME/work/env/$image_name"
+  wsl_output="$HOME/work/env/wsl/$image_name"
 fi
 
 # Log runtime configuration
@@ -158,26 +158,25 @@ container_id="$(dryrun docker container ls --all --quiet --filter "ancestor=$ima
 dryrun log "container_id=$container_id"
 
 log Set temp container file location
-container_file="/tmp/$image_name-$image_tag.tar"
+container_file="/tmp/$image_base_name-$image_tag.tar"
 log "container_file=$container_file"
-
-log Create container file path...
-dryrun mkdir -p "/tmp/personal"
 
 log Export the container...
 dryrun docker export "$container_id" > "$container_file"
 
+distro_name=personal-$image_base_name
+
 log Terminate WSL distro if exists...
-dryrun wsl --terminate $image_name || true
+dryrun wsl --terminate $distro_name || true
 
 log Unregister WSL distro if exists...
-dryrun wsl --unregister $image_name || true
+dryrun wsl --unregister $distro_name || true
 
 log Create wsl output directory if not exists...
 dryrun mkdir -p $wsl_output
 
 log Import new container to WSL...
-dryrun wsl --import personal-$image_base_name "$wsl_output" "$container_file"
+dryrun wsl --import $distro_name "$wsl_output" "$container_file"
 
 log Remove temporary container file...
 dryrun rm -f "$container_file"
@@ -190,4 +189,4 @@ dryrun rm -r "$project_dir/tools/docker/dev/.gitconfig"
 
 log Done! "\n"
 log Enable WSL integration in Docker Desktop settings.
-log Launch your new dev env with \"wsl -d $image_name\"
+log Launch your new dev env with \"wsl -d $distro_name\"

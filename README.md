@@ -29,7 +29,7 @@ activation key identifier.
 ## Development Usage
 
 Once the development image is available in WSL, enable WSL integration in Docker
-Desktop settings for this specific `wsl-rhel9` distro under
+Desktop settings for this specific distro under
 `Settings > Resources > WSL Integration > Enable integration with additional distros`.
 
 You may run this script repeatedly to wipe the existing distro and replace it
@@ -64,3 +64,9 @@ Additionally, when you create a dev container from this WSL distro with the
 credential helper configured, the container automatically shares the credentials
 thanks to the VS Code Dev Container extension, per
 <https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials>.
+
+## Kubernetes Tools
+
+Install k8s tools into the wsl distro using the `--k8s` argument.
+
+k8s tools have been installed per https://kubernetes.io/docs/tasks/tools/.

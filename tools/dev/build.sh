@@ -6,8 +6,8 @@
 # Locally build the project Dockerfile image, export the container, and import
 # into WSL.
 #
-# Writes WSL output to "$HOME/work/env/wsl/wsl-rhel9". Modify this location by
-# specifying the `--wsl-output` argument.
+# Writes WSL output to "$HOME/work/env/wsl/personal/rhel9". Modify this location
+# by specifying the `--wsl-output` argument.
 #
 
 set -eu
@@ -30,7 +30,7 @@ Options:
  -n, --name       The quick name suffix to use
                   Defaults to '$image_base_name'
  -w, --wsl-output Set the WSL output location
-                  Defaults to '$HOME/work/env/personal/wsl/rhel9/<base_name>'
+                  Defaults to '$HOME/work/env/wsl/personal/rhel9/<base_name>'
      --no-cache   Pass to docker build to disable cache
  -v, --verbose    print verbose output
  -d, --dryrun     print commands without executing

@@ -26,8 +26,8 @@ RUN dnf update -y \
   && rm -rf /var/cache/yum
 
 # Install root user .bashrc
-RUN --mount=type=bind,source=alias.bashrc,target=alias.bashrc \
-  cat alias.bashrc >> /root/.bashrc
+RUN --mount=type=bind,source=user.bashrc,target=user.bashrc \
+  cat user.bashrc >> /root/.bashrc
 
 # 🛂 Create the non-root (developer) user
 ARG USERNAME
@@ -52,7 +52,7 @@ RUN printf "\n[user]\ndefault = $USERNAME\n" >> /etc/wsl.conf
 
 # Install the .bashrc for the user
 WORKDIR /home/$USERNAME/.bashrc.d
-COPY --chown=$USER_UID:$USER_GID alias.bashrc .
+COPY --chown=$USER_UID:$USER_GID user.bashrc .
 COPY --chown=$USER_UID:$USER_GID git.bashrc .
 
 # 🔀 Copy user-specific git configuration

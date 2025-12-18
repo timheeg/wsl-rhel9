@@ -1,12 +1,19 @@
-ARG BASE_IMAGE_NAME
-ARG BASE_IMAGE_TAG
-FROM $BASE_IMAGE_NAME:$BASE_IMAGE_TAG
+ARG BASE_REPO="registry.redhat.io"
+ARG BASE_IMAGE="ubi9/ubi"
+ARG BASE_TAG="9.7"
 
+################################################
+FROM $BASE_REPO/$BASE_IMAGE:$BASE_TAG AS base
+
+# Provide your own RHEL subscription
 RUN --mount=type=secret,id=RHEL_ORG \
   --mount=type=secret,id=RHEL_ACTIVATION_KEY \
   subscription-manager register \
   --org=$(cat /run/secrets/RHEL_ORG) \
   --activationkey=$(cat /run/secrets/RHEL_ACTIVATION_KEY)
+
+################################################
+FROM base AS setup
 
 # Install tools
 #
@@ -46,6 +53,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
   && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
   && echo $USERNAME ALL=\(ALL\) NOPASSWD: ALL > /etc/sudoers.d/$USER_UID \
   && chmod 0440 /etc/sudoers.d/$USER_UID
+
+################################################
+FROM setup AS build-env
 
 # Specify as the default user in the WSL config
 RUN printf "\n[user]\ndefault = $USERNAME\n" >> /etc/wsl.conf

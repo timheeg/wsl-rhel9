@@ -103,3 +103,32 @@ RUN \
   && git config --global init.defaultBranch main
 
 CMD [ "bash" ]
+
+################################################
+# Install K8s tools
+# see https://kubernetes.io/docs/tasks/tools/
+#
+FROM build-env AS k8s-env
+
+USER root
+
+# Install kubectl
+# see https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+  && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" \
+  && echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check \
+  && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
+  && kubectl version --client
+
+# Install kind
+# see https://kind.sigs.k8s.io/
+RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-amd64 \
+  && chmod +x ./kind \
+  && mv ./kind /usr/local/bin/kind
+
+# Install minikube
+RUN curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64 \
+  && install minikube-linux-amd64 /usr/local/bin/minikube \
+  && rm minikube-linux-amd64
+
+USER $USERNAME

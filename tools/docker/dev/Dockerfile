@@ -96,7 +96,7 @@ RUN \
   # `fetch` will always run prune, so you never need to
   && git config --global remote.origin.prune true \
   # Adds color when showing blocks of code that moved by remain unchanged
-  && git config --global diff.colorMoved zebra \
+  && git config --global diff.colorMoved dimmed-zebra \
   # Set vim as the default editor. Modify as desired.
   && git config --global core.editor vim \
   # Configure `main` as default branch

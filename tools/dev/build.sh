@@ -146,6 +146,7 @@ dryrun docker build \
   --build-arg USERNAME="$USERNAME" \
   --secret id=RHEL_ORG \
   --secret id=RHEL_ACTIVATION_KEY \
+  --target "build-env" \
   --tag "$image_name:$image_tag" \
   "$project_dir/tools/docker/dev/"
 

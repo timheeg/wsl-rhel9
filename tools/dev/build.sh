@@ -16,6 +16,7 @@ set -eu
 # Initialize configuration
 dryrun=0
 image_base_name="wsl-rhel9"
+image_only=0
 enable_k8s=0
 wsl_output=""
 no_cache=0
@@ -33,6 +34,7 @@ Options:
  -w, --wsl-output Set the WSL output location
                   Defaults to '$HOME/work/env/wsl/personal/rhel9/<base_name>'
      --k8s        Enable k8s install. Disabled by default.
+     --image-only Build docker image and exit
      --no-cache   Pass to docker build to disable cache
  -v, --verbose    print verbose output
  -d, --dryrun     print commands without executing
@@ -43,7 +45,7 @@ exit 1
 }
 
 # Process command line args
-args=$(getopt -a -o n:w:vdh --long name:,wsl-output:,k8s,no-cache,verbose,dryrun,help -- "$@")
+args=$(getopt -a -o n:w:vdh --long name:,wsl-output:,k8s,image-only,no-cache,verbose,dryrun,help -- "$@")
 if [[ $? != 0 ]]; then
   usage
 fi
@@ -59,6 +61,8 @@ do
       wsl_output=$2; shift 2;;
     --k8s)
       enable_k8s=1; shift;;
+    --image-only)
+      image_only=1; shift;;
     --no-cache)
       no_cache=1; shift;;
     -v | --verbose)
@@ -101,6 +105,7 @@ if [[ $verbose ]]; then
   log "  dryrun=$dryrun"
   log "  no_cache=$no_cache"
   log "  enable_k8s=$enable_k8s"
+  log "  image_only=$image_only"
   log "  verbose=$verbose"
   log "  image_name=$image_name"
   log "  wsl_output=$wsl_output"
@@ -159,6 +164,11 @@ dryrun docker build \
   --target "$build_target" \
   --tag "$image_name:$image_tag" \
   "$project_dir/tools/docker/dev/"
+
+if [[ $image_only == 1 ]]; then
+  log Exit after building image
+  exit 0
+fi
 
 log Create a container from the image...
 dryrun docker create "$image_name:$image_tag"
